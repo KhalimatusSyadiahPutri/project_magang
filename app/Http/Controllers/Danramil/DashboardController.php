@@ -12,8 +12,9 @@ class DashboardController extends Controller
         if (auth()->user()->id_jabatan !=1){
             return abort(403, 'anda bukan babinsa');
         }
-        return view('dashboard_danramil',[
-            'title' => 'Dashboard danramil'
-        ]);
+
+        $data['title'] = 'Dashboard Danramil';
+
+        return view('dashboard_danramil', $data);
     }
 }

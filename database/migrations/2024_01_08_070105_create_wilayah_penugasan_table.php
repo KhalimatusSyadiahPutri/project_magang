@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreign('id_pimpinan')->references('id')->on('users')->nullOnDelete();
             $table->foreign('id_anggota')->references('id')->on('users')->nullOnDelete();
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
-            $table->foreign('id_kecamatan')->references('id')->on('kecamatan')->nullOnDelete();
+            // $table->foreign('id_kecamatan')->references('id')->on('kecamatan')->nullOnDelete();
         });
     }
 

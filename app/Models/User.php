@@ -21,6 +21,7 @@ class User extends Authenticatable
         'nama_lengkap',
         'id_pangkat',
         'id_jabatan',
+        'id_percabangan',
         'nrp',
         'nomor_telepon',
     ];
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function pangkat()
     {
         return $this->belongsTo(Pangkat::class, 'id_pangkat');
+    }
+
+    public function percabangan()
+    {
+        return $this->belongsTo(Percabangan::class, 'id_percabangan');
     }
 }

@@ -4,34 +4,37 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateDesaTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('desa', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_desa')->unique();
-            $table->string('nama_desa');
-            $table->foreignId('id_provinsi')->nullable();
-            $table->foreignId('id_kota')->nullable();
-            $table->foreignId('id_kecamatan')->nullable();
+        Schema::create(config('laravolt.indonesia.table_prefix').'desa', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->char('kode_desa', 10)->unique();
+            $table->char('kode_kecamatan', 7);
+            $table->string('nama_desa', 255);
+            $table->text('meta')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_provinsi')->references('id')->on('provinsi')->nullOnDelete();
-            $table->foreign('id_kota')->references('id')->on('kota')->nullOnDelete();
-            $table->foreign('id_kecamatan')->references('id')->on('kecamatan')->nullOnDelete();
+            $table->foreign('kode_kecamatan')
+                ->references('kode_kecamatan')
+                ->on(config('laravolt.indonesia.table_prefix').'kecamatan')
+                ->onUpdate('cascade')->onDelete('restrict');
         });
     }
 
-
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('desa');
+        Schema::dropIfExists(config('laravolt.indonesia.table_prefix').'desa');
     }
-};
+}

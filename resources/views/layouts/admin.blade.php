@@ -12,14 +12,22 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    @stack('style')
-
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote.min.css') }}">
 
-    <!-- Start GA -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <style>
+        textarea {
+            height: 100px !important;
+        }
+    </style>
+
+    @stack('style')
+
+    {{-- <!-- Start GA -->
+    <script async
+        src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -30,8 +38,7 @@
 
         gtag('config', 'UA-94034622-3');
     </script>
-    <!-- END GA -->
-</head>
+    <!-- END GA --> --}}
 </head>
 
 <body>
@@ -58,6 +65,7 @@
     <script src="{{ asset('library/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('library/summernote/dist/summernote.min.js') }}"></script>
     <script src="{{ asset('js/stisla.js') }}"></script>
 
     @stack('scripts')

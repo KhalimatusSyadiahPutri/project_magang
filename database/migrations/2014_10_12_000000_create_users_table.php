@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nama_lengkap')->nullable();
             $table->foreignId('id_pangkat')->nullable(); //foreignId => Foreign Key dengan tipe data Biginteger dengan tambahan Index
             $table->foreignId('id_jabatan')->nullable();
+            $table->foreignId('id_percabangan')->nullable();
             $table->string('nrp')->nullable();
             $table->string('nomor_telepon')->nullable();
             $table->rememberToken();
