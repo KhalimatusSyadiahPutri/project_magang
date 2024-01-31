@@ -6,7 +6,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>{{ $title ?? 'Tambah Pangkat Baru ' }}</h1>
+                <h1>{{ $title ?? 'ini title kosong' }}</h1>
             </div>
 
             <div class="section-body">
@@ -16,17 +16,17 @@
 
                         @include('components.alert')
 
-                        <form method="POST" action="{{ url("danramil/pangkat/$data->id/update") }}">
-                            @method('PUT')
+                        <form method="POST" action="{{ route('admin.pangkat.update', $data) }}">
                             @csrf
+                            @method('PUT')
 
                             <div class="form-group">
-                                <label for="name">Edit Nama Pangkat</label>
-                                <input type="text" name="nama" id="nama" class="form-control"
-                                    placeholder="Masukan Nama Pangkat" value="{{ $data->nama_pangkat }}">
+                                <label for="name">Nama</label>
+                                <input type="text" name="nama_pangkat" id="name" class="form-control"
+                                    placeholder="Masukan Nama Pangkat" value="{{ $data->name ?? '' }}">
                             </div>
 
-                            <button type="submit" class="btn btn-success">Simpan Edit Pangkat</button>
+                            <button type="submit" class="btn btn-success">Simpan Pangkat</button>
 
                         </form>
                     </div>

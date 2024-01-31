@@ -6,7 +6,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>{{ $title ?? 'Edit Jabatan' }}</h1>
+                <h1>{{ $title ?? 'ini title kosong' }}</h1>
             </div>
 
             <div class="section-body">
@@ -21,12 +21,12 @@
                             @csrf
 
                             <div class="form-group">
-                                <label for="name">Nama Jabatan </label>
-                                <input type="text" name="nama" id="nama" class="form-control"
+                                <label for="name">Nama</label>
+                                <input type="text" name="nama_jabatan" id="name" class="form-control"
                                     placeholder="Masukan Nama Jabatan" value="{{ $data->nama_jabatan }}">
                             </div>
 
-                            <button type="submit" class="btn btn-success">Simpan Edit Jabatan</button>
+                            <button type="submit" class="btn btn-success">Simpan Jabatan</button>
 
                         </form>
                     </div>

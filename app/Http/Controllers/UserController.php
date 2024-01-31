@@ -15,19 +15,17 @@ use Maatwebsite\Excel\Facades\Excel;
 class UserController extends Controller
 {
     public function index(Request $request)
-    {
-
-        $data = User::with('jabatan')->with('pangkat')->with('percabangan')->select();
-        $search = request()->get('search', []);
-        foreach ($search as $key => $value) {
-            $data->where($key, 'like', '%' . $value . '%');
-        }
-
-        return view('anggota.index', [
-            'title' => 'Daftar Anggota',
-            'data' => $data->paginate()
-        ]);
+{
+    $data = User::with('jabatan', 'pangkat', 'percabangan')->select('*');
+    $search = $request->get('search', []);
+    foreach ($search as $key => $value) {
+        $data->where($key, 'like', '%' . $value . '%');
     }
+    return view('anggota.index', [
+        'title' => 'Daftar Anggota',
+        'data' => $data
+    ]);
+}
 
     // fungsi untuk membuka form tambah anggota
     public function create()

@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jabatan; // Pastikan namespace model Jabatan sudah diimpor
+use App\Models\Jabatan;
+use App\Models\Pangkat;
 use Illuminate\Http\Request;
 
 class JabatanController extends Controller
 {
-     public function index()
-     {
-        $data = Jabatan::paginate(); //Ambil data
+    public function index(Request $request)
+    {
+        $search = $request->search;
+
+        $data = Jabatan::select();
+
+        $search = request()->get('search', []);
+        foreach ($search as $key => $value) {
+            $data->where($key, 'like', '%' . $value . '%');
+        }
 
         // tampilan
         return view('jabatan.index', [
-            'title' => 'Daftar Jabatan Anggota',
-            'data' => $data  // Perbaiki variabel yang dikirimkan ke view
+            'title' => 'Daftar Jabatan',
+            'data' => $data->paginate()
         ]);
     }
+
     public function create()
     {
         return view('jabatan.create');
@@ -25,43 +34,45 @@ class JabatanController extends Controller
     public function store(Request $request)
     {
         $jabatan = Jabatan::create([
-            'nama_jabatan' => $request->nama
+            'nama_jabatan' => $request->nama_jabatan
         ]);
 
         if ($jabatan) {
-            return redirect('danramil/jabatan');
-        } else{
-            return redirect('danramil/jabatan/create');
+            return redirect(auth()->user()->jabatan()->first()->name . '/jabatan');
+        } else {
+            return redirect()->back()->with('success', 'sukses');
         }
     }
 
     public function edit($id)
     {
-        $data = Jabatan::findOrFail($id);
-        return view('jabatan.edit',[
-            'title' => 'Edit Data Jabatan',
+        $data = Jabatan::findOrFail($id); // ambil data
+
+        // tampil form edit data
+        return view('position.edit', [
+            'title' => 'Edit Data',
             'data' => $data
         ]);
     }
 
     public function update($id, Request $request)
     {
-        $data =Jabatan::findOrFail($id);
-        $data->nama_jabatan = $request->nama ?? '';
-        $update = $data->save();
+        $data = Jabatan::findOrFail($id); // cari dulu data nya
+        $data->nama_jabatan = $request->nama_jabatan ?? ''; // ganti dengan data baru
+        $update = $data->save(); // simpan datanya
 
-        if($update){
+        if ($update) {
             return redirect('danramil/jabatan');
-        }else {
-            return redirect()->back();
+        } else {
+            return redirect()->back()->with('success', 'sukses');
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $jabatan = Jabatan::findOrFail($id);
-        $jabatan->delete(); //model dan proses hapus data
+        $jabatan->delete(); // model dan proses hapus data
 
-        return redirect()->back(); //Routing kembali
+        return redirect()->back()->with('success', 'sukses'); // routing kembali
     }
 }

@@ -6,7 +6,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>{{ $title ?? 'Tambah Pangkat Baru ' }}</h1>
+                <h1>{{ $title ?? 'ini title kosong' }}</h1>
             </div>
 
             <div class="section-body">
@@ -16,13 +16,13 @@
 
                         @include('components.alert')
 
-                        <form method="POST" action="{{ url('danramil/pangkat/store') }}">
+                        <form method="POST" action="{{ route('admin.pangkat.store') }}">
                             @csrf
 
                             <div class="form-group">
-                                <label for="nama_pangkat">Nama Pangkat</label>
-                                <input type="text" name="nama" id="nama" class="form-control"
-                                    placeholder="Masukan Nama Jabatan">
+                                <label for="name">Nama</label>
+                                <input type="text" name="nama_pangkat" id="name" class="form-control"
+                                    placeholder="Masukan Nama Pangkat">
                             </div>
 
                             <button type="submit" class="btn btn-success">Simpan Pangkat</button>

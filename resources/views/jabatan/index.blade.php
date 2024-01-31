@@ -10,12 +10,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header justify-content-between">
-                <h1 class="d-inline-block">{{ $title ?? 'DAFTAR JABATAN' }}</h1>
-                <div>
-                    <a href="{{ url('danramil/jabatan/create') }}" class="btn btn-primary btn-sm">Tambah Jabatan</a>
-                    <a href="{{ url('danramil/jabatan/export-excel') }}" class="btn btn-success btn-sm">Export Jabatan</a>
-                    <a href="{{ url('danramil/jabatanprint-pdf') }}" class="btn btn-warning btn-sm">Cetak PDF</a>
-                </div>
+                <h1 class="d-inline-block">{{ $title ?? 'ini title kosong' }}</h1>
+                {{-- <div>
+                    <a href="{{ url('danramil/pangkat/export-excel') }}" class="btn btn-success btn-sm">Export Pangkat</a>
+                    <a href="{{ url('danramil/pagkat/print-pdf') }}" class="btn btn-warning btn-sm">Cetak PDF</a>
+                </div> --}}
             </div>
 
             <div class="section-body">
@@ -24,13 +23,29 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <p>Jabatan Anggota</p>
+                        <p>Pangkat Anggota</p>
                     </div>
                     <div class="card-body">
+                        <div class="mb-4">
+                            <form class="row g-3">
+                                <div class="col-9">
+                                    <input type="search" name="search[name]" id="search" class="form-control"
+                                        value="{{ request()->get('search')['name'] ?? '' }}" placeholder="Cari Pangkat">
+                                </div>
+                                <div class="col-1">
+                                    <button type="submit" class="btn btn-primary btn-block mb-3">Cari</button>
+                                </div>
+                                <div class="col-2">
+                                    <a href="{{ route('admin.jabatan.create') }}" class="btn btn-success btn-block">Tambah
+                                        Jabatan</a>
+                                </div>
+                            </form>
+                        </div>
+
                         <table class="table table-bordered">
                             <tr>
                                 <th>No</th>
-                                <th>Nama Jabatan </th>
+                                <th>Nama</th>
                                 <th>Aksi</th>
                             </tr>
                             @forelse($data as $key => $user)
@@ -38,11 +53,11 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $user->nama_jabatan }}</td>
                                     <td>
-                                        <a href="{{ url('danramil/jabatan/' . $user->id . '/edit') }}"
-                                            class="btn btn-success">Edit Data</a>
+                                        <a href="{{ route('admin.jabatan.edit', $user) }}" class="btn btn-success">Edit
+                                            Data</a>
 
-                                        <form method="post"
-                                            action="{{ url('danramil/jabatan/' . $user->id . '/delete') }}">
+                                        <form method="post" action="{{ route('admin.jabatan.destroy', $user) }}"
+                                            class="d-inline-block">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="btn btn-danger">Hapus</button>

@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Percabangan extends Model
 {
-    use HasFactory;
+    protected $table = [
+        'nama_percabangan'
+    ];
 }

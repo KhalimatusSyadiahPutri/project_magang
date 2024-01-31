@@ -11,11 +11,10 @@
         <section class="section">
             <div class="section-header justify-content-between">
                 <h1 class="d-inline-block">{{ $title ?? 'ini title kosong' }}</h1>
-                <div>
-                    <a href="{{ url('danramil/pangkat/create') }}" class="btn btn-primary btn-sm">Tambah Pangkat</a>
+                {{-- <div>
                     <a href="{{ url('danramil/pangkat/export-excel') }}" class="btn btn-success btn-sm">Export Pangkat</a>
-                    <a href="{{ url('danramil/pangkat/print-pdf') }}" class="btn btn-warning btn-sm">Cetak PDF</a>
-                </div>
+                    <a href="{{ url('danramil/pagkat/print-pdf') }}" class="btn btn-warning btn-sm">Cetak PDF</a>
+                </div> --}}
             </div>
 
             <div class="section-body">
@@ -27,10 +26,26 @@
                         <p>Pangkat Anggota</p>
                     </div>
                     <div class="card-body">
+                        <div class="mb-4">
+                            <form class="row g-3">
+                                <div class="col-9">
+                                    <input type="search" name="search[name]" id="search" class="form-control"
+                                        value="{{ request()->get('search')['name'] ?? '' }}" placeholder="Cari Pangkat">
+                                </div>
+                                <div class="col-1">
+                                    <button type="submit" class="btn btn-primary btn-block mb-3">Cari</button>
+                                </div>
+                                <div class="col-2">
+                                    <a href="{{ route('admin.pangkat.create') }}" class="btn btn-success btn-block">Tambah
+                                        Pangkat</a>
+                                </div>
+                            </form>
+                        </div>
+
                         <table class="table table-bordered">
                             <tr>
                                 <th>No</th>
-                                <th>Nama Pangkat </th>
+                                <th>Nama</th>
                                 <th>Aksi</th>
                             </tr>
                             @forelse($data as $key => $user)
@@ -38,11 +53,11 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $user->nama_pangkat }}</td>
                                     <td>
-                                        <a href="{{ url('danramil/pangkat/' . $user->id . '/edit') }}"
-                                            class="btn btn-success">Edit Data</a>
+                                        <a href="{{ route('admin.pangkat.edit', $user) }}" class="btn btn-success">Edit
+                                            Data</a>
 
-                                        <form method="post"
-                                            action="{{ url('danramil/pangkat/' . $user->id . '/delete') }}">
+                                        <form method="post" action="{{ route('admin.pangkat.destroy', $user) }}"
+                                            class="d-inline-block">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="btn btn-danger">Hapus</button>

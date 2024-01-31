@@ -9,60 +9,50 @@ class PangkatController extends Controller
 {
     public function index()
     {
-        $data = Pangkat::paginate(); //ambil data
+        $pangkat = Pangkat::select();
 
-        //tampil data
+        $search = request()->get('search', []);
+        foreach ($search as $key => $value) {
+            $pangkat->where($key, 'like', '%' . $value . '%');
+        }
+
         return view('pangkat.index', [
-            'title' => 'Daftar Pangkat',
-            'data' => $data
+            'title' => 'Daftar Pangkat Anggota',
+            'data' => $pangkat->paginate()
         ]);
     }
 
     public function create()
     {
-        return view('pangkat.create');
+        return view('pangkat.create', [
+            'title' => 'Tambah Pangkat',
+            'data' => null
+        ]);
     }
 
     public function store(Request $request)
     {
-        $pangkat = Pangkat::create([
-            'nama_pangkat' => $request->nama
-        ]);
-
-        if ($pangkat){
-            return redirect('danramil/pangkat');
-        }else {
-            return redirect('danramil/pangkat/create');
-        }
+        Pangkat::create($request->all());
+        return redirect()->route('admin.pangkat.index')->with('success', 'sukses');
     }
 
     public function edit($id)
     {
-        $data = Pangkat::findOrFail($id);
-        return view('pangkat.edit',[
-            'title' => 'Edit Data Pangkat',
-            'data' => $data
+        return view('pangkat.edit', [
+            'title' => 'Ubah Pangkat',
+            'data' => Pangkat::findOrFail($id)
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
-        $data = Pangkat::findOrFail($id);
-        $data->nama_pangkat =$request->nama ??'';
-        $update = $data->save();
-
-        if($update){
-            return redirect('danramil/pangkat');
-        }else {
-            return redirect->back();
-        }
+        Pangkat::findOrFail($id)->update($request->all());
+        return redirect()->route('admin.pangkat.index')->with('success', 'sukses');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
-        $pangkat = Pangkat::findOrFail($id);
-        $pangkat->delete(); //model dan proses hapus
-
-        return redirect()->back(); //routing kembali
+        Pangkat::findOrFail($id)->delete();
+        return redirect()->route('admin.pangkat.index')->with('success', 'sukses');
     }
 }

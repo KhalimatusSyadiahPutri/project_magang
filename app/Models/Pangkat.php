@@ -17,8 +17,8 @@ class Pangkat extends Model
         "nama_pangkat"
     ];
 
-    // public function users()
-    // {
-    //     return $this->hasMany(User::class, 'id_pangkat');
-    // }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'id_pangkat');
+    }
 }
